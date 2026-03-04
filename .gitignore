@@ -15,3 +15,7 @@ backend/vendor/bundle/
 # Frontend
 frontend/node_modules/
 frontend/dist/
+
+# Secrets
+backend/config/master.key
+backend/config/credentials.yml.enc
