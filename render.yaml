@@ -28,8 +28,9 @@ services:
         sync: false
     rootDir: ./
 
-  - type: static
+  - type: web
     name: eshop-frontend
+    runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
