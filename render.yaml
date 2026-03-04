@@ -1,0 +1,48 @@
+databases:
+  - name: eshop-db
+    plan: free
+    databaseName: eshop_production
+    user: eshop
+
+services:
+  - type: web
+    name: eshop-backend
+    runtime: ruby
+    plan: free
+    buildCommand: cd backend && ./bin/render-build.sh
+    startCommand: cd backend && bundle exec puma -C config/puma.rb
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: eshop-db
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DEVISE_JWT_SECRET_KEY
+        generateValue: true
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+    rootDir: ./
+
+  - type: web
+    name: eshop-frontend
+    runtime: static
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    rootDir: ./

@@ -1,0 +1,17 @@
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Backend
+backend/tmp/
+backend/log/
+backend/storage/
+backend/.bundle/
+backend/vendor/bundle/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
